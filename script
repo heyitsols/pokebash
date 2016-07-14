@@ -1,24 +1,27 @@
 #!/bin/bash
 
-touch list.txt
-touch got.txt
+touch pokebash/list.txt
+touch pokebash/got.txt
 
 if [ $(( ( RANDOM % 10 )  + 1 )) -gt 3 ] ; then
 echo "No Pokemon here"
+echo "You currently have $(wc -l pokebash/got.txt | awk '{print $1}') Pokemon, cat pokebash/got.txt to see them"
 exit 0
 fi
 
-pokemon=$(shuf -n 1 list.txt)
+pokemon=$(shuf -n 1 pokebash/list.txt)
 echo "You found a Pokemon!"
 echo "It's a $pokemon"
-grep "$pokemon" got.txt &>/dev/null && echo "But you already have a $pokemon" && exit 0 || read -p "Do you want to keep it? (Y/n) " add
+grep "$pokemon" pokebash/got.txt &>/dev/null && echo "But you already have a $pokemon" && exit 0 || read -p "Do you want to keep it? (Y/n) " add
 
 case $add in
 y|Y)
-echo "$pokemon" >> got.txt
+echo "$pokemon" >> pokebash/got.txt
 echo "Added"
 ;;
 *)
 echo "Thrown away :("
 ;;
 esac
+
+echo "You currently have $(wc -l pokebash/got.txt | awk '{print $1}') Pokemon, cat pokebash/got.txt to see them"
